@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/animated">
+        <file alias="win7">img/LoadingWindows.gif</file>
+    </qresource>
+</RCC>
