@@ -30,12 +30,10 @@ FileConnectionCheck::FileConnectionCheck()
 
 FileConnectionCheck::~FileConnectionCheck()
 {
-    qDebug() << "FileConnectionCheck::~FileConnectionCheck";
 }
 
 void FileConnectionCheck::run()
 {
-    qDebug() << "FileConnectionCheck::run";
     QFileInfo fileInfo(filename);
     if (!fileInfo.exists()) {
         emit connectionFailed();

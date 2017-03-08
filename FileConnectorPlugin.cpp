@@ -202,8 +202,6 @@ void FileConnectorPlugin::setupConnections()
 
 FileConnectorPlugin::~FileConnectorPlugin()
 {
-    //    qDebug() << "FileCommunicatorWidget::~FileCommunicatorWidget";
-
     if(m_receiving_thread){
         if(m_receiving_thread->isRunning()){
             m_receiving_thread->stop();
@@ -221,8 +219,6 @@ FileConnectorPlugin::~FileConnectorPlugin()
 
 void FileConnectorPlugin::start()
 {
-    qDebug() << "FileCommunicatorWidget::start";
-
     if (!m_connected) {
         return;
     }
@@ -335,11 +331,7 @@ bool FileConnectorPlugin::loadFile(const QString &filename)
 
 int FileConnectorPlugin::receivingThreadProcess(void* args)
 {
-    qDebug() << "FileCommunicatorWidget::receivingThreadProcess";
-
     FileConnectorPlugin* obj = static_cast<FileConnectorPlugin*>(args);
-
-    //    qDebug() << "FileCommunicatorWidget thread started";
 
     QTime timer;
     long lastTimestamp = 0;
@@ -355,7 +347,6 @@ int FileConnectorPlugin::receivingThreadProcess(void* args)
             l_ranges.steps.clear();
             l_levels.steps.clear();
             if ((playPosition = obj->m_connection_widget.getData(l_ranges, l_levels, l_timeStamp)) < 0) {
-                qDebug() << "Error: " << obj->m_connection_widget.what();
                 emit obj->error(LogHeader, obj->m_connection_widget.what());
                 break;
             }
@@ -376,19 +367,16 @@ int FileConnectorPlugin::receivingThreadProcess(void* args)
                     timeLapse = obj->m_connection_widget.getScanMsec();
                 }
                 int diffTime  = static_cast<int>((double)(timeLapse) * obj->m_speedFactor);
-                //                qDebug() << "Delay: " << diffTime << "l_timeStamp: " << l_timeStamp << "lastTimestamp" << lastTimestamp << "speedFactor" << obj->speedFactor;
                 diffTime = diffTime - elapsedTime;
                 if (diffTime < (elapsedTime + 10)) {
                     diffTime = elapsedTime + 10;
                 }
-                //                qDebug() << "Delay: " << diffTime << "Elapsed: " << elapsedTime;
                 delay(diffTime);
                 lastTimestamp = l_timeStamp;
             }
         }
     }
 
-    //    qDebug() << "FileCommunicatorWidget thread finished";
     return 0;
 }
 
